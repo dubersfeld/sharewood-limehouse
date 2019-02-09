@@ -1,0 +1,37 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /authorization
+ 
+usersResourceUriBase: http://user-service:9090/user/
+
+#gateway-path: /authorization 
+gateway-path: 
+
+gateway-url: http://192.168.1.2:8080
+
+authorization-url: "http://192.168.1.2:8080"
+
+login-url: "http://192.168.1.2:8080/authorization/login" 
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/  
+      
+spring:
+  jpa:
+    database: "MYSQL"
+    show-sql: "true"
+   
+  datasource:
+    platform: mysql
+    url: "jdbc:mysql://tokens-mysql:3306/sharewood_tokens"
+    username: dbuser
+    password: password1234
+      
+    

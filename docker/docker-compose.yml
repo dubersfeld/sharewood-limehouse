@@ -1,0 +1,141 @@
+version: '3.4'
+
+services:
+
+  # photos-mysql 
+  photos-mysql:
+    image: mysql
+    volumes:
+      - type: volume
+        source: photos-dbdata
+        target: /var/lib/mysql
+    restart: always
+
+  # users-mysql 
+  users-mysql:
+    image: mysql
+    volumes:
+      - type: volume
+        source: users-dbdata
+        target: /var/lib/mysql
+    restart: always
+
+  # tokens-mysql 
+  tokens-mysql:
+    image: mysql
+    volumes:
+      - type: volume
+        source: tokens-dbdata
+        target: /var/lib/mysql
+    restart: always
+
+  # eureka-server
+  eureka-server:
+    image: sharewood/eureka-service
+    ports:
+      # host:container
+      - 8761:8761
+
+  # config-server 
+  config-server:
+    image: sharewood/config-server
+    volumes:
+      # edit to match your own filesystem
+      - type: bind
+        source: /home/dominique/workspace-limehouse-4/config-repo
+        target: /tmp/config-repo
+    ports:
+      - 8888:8888
+
+  
+  # user-service
+  user-service:
+    image: sharewood/user-server
+    depends_on:
+      - users-mysql
+      - config-server
+    ports:
+      - 9090:9090
+    environment:
+      - CONFIGSERVER_HOST=config-server
+      - CONFIGSERVER_PORT=8888
+      - DATABASE_HOST=users-mysql
+      - DATABASE_PORT=3306
+      - SHAREWOOD_CONFIG_URI=http://config-server:8888
+      - PROFILE=dev
+
+  # authorization-service
+  authorization-service:
+    image: sharewood/authorization-server
+    depends_on:
+      - tokens-mysql
+      - user-service
+    ports:
+      - 8080:8080
+    environment:
+      - CONFIGSERVER_HOST=config-server
+      - CONFIGSERVER_PORT=8888
+      - USERSERVER_HOST=user-service
+      - USERSERVER_PORT=9090
+      - DATABASE_HOST=tokens-mysql
+      - DATABASE_PORT=3306
+      - SHAREWOOD_CONFIG_URI=http://config-server:8888
+      - PROFILE=dev
+
+  # sharewood-service
+  sharewood-service:
+    image: sharewood/sharewood
+    volumes:
+      - type: volume
+        source: photos-store
+        target: /home/photos
+    depends_on:
+      - config-server
+      - tokens-mysql
+      - photos-mysql
+    ports:
+      - 8081:8081
+    environment:
+      - CONFIGSERVER_HOST=config-server
+      - CONFIGSERVER_PORT=8888
+      - TOKEN_DATABASE_HOST=tokens-mysql
+      - TOKEN_DATABASE_PORT=3306
+      - PHOTO_DATABASE_HOST=photos-mysql
+      - PHOTO_DATABASE_PORT=3306
+      - SHAREWOOD_CONFIG_URI=http://config-server:8888
+      - PROFILE=dev
+
+  # zuul-service
+  zuul-service:
+    image: sharewood/sharewood-gateway
+    depends_on:
+      - config-server
+      - sharewood-service
+    ports:
+        #host:container
+      - 5555:5555
+    environment:
+      - CONFIGSERVER_HOST=config-server
+      - CONFIGSERVER_PORT=8888
+      - SHAREWOOD_CONFIG_URI=http://config-server:8888
+      - PROFILE=dev  
+
+
+volumes:
+
+  photos-dbdata:
+    external: 
+      name: sharewood_photos_db
+
+  users-dbdata:
+    external: 
+      name: sharewood_users_db
+
+  tokens-dbdata:
+    external: 
+      name: sharewood_tokens_db
+
+  photos-store:
+    external: 
+      name: sharewood_photos_store
+
