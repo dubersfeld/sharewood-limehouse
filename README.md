@@ -173,8 +173,10 @@ mvn spring-boot:run
 ```
 to start the client. Then hit the browser using your explicit host IP address. With my host it is:
 
+```
 http://192.168.1.2:8090/fleetwood
- 
+```
+
 ![alt text](images/clientPage.png "Client page")
 
 The users server is populated with two users Alice and Carol who have the role USER. Their passwords are:
