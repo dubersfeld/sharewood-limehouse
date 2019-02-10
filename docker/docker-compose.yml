@@ -42,7 +42,7 @@ services:
     volumes:
       # edit to match your own filesystem
       - type: bind
-        source: /home/dominique/workspace-limehouse/config-repo
+        source: /home/dominique/sharewood-limehouse/config-repo
         target: /tmp/config-repo
     ports:
       - 8888:8888
