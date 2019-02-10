@@ -96,17 +96,9 @@ Exit from container and kill it with the command:
 ```
 [sudo] docker rm -f users_create
 ```
-
-
 ## 1.3. sharewood_tokens
 
-In folder docker/tokens edit the file sharewoodTokenDB.sql and in the line:
-```
-VALUES('Fleetwood', 'SHAREWOOD', '{bcrypt}$2a$10$xMgMQRCnrZ.vf/8WxyIwrOTiFKGJF72FYGxUjnSIWQMpFxFTtoU.2', 'READ,WRITE,DELETE', 'authorization\_code', 'http://192.168.1.2:8090/fleetwood/sharewood/photosMy,http://192.168.1.2:8090/fleetwood/sharewood/sharedPhotos,http://192.168.1.2:8090/fleetwood/sharewood/updatePhoto,http://192.168.1.2:8090/fleetwood/sharewood/deletePhoto,http://192.168.1.2:8090/fleetwood/sharewood/createPhotoMulti,http://192.168.1.2:8090/fleetwood/sharewood/getToken', 'ROLE_CLIENT', '520', null, '{}', null);
-```
-replace each occurence of '192.168.1.2' by the explicit (internal) IP address that matches your host.
- 
-Run the script tokensBuild.sh then run the script tokensVolume.sh.
+In folder docker/tokens run the script tokensBuild.sh then run the script tokensVolume.sh.
 It creates a volume named sharewood\_tokens_db.
 Run the command:
 ```
@@ -137,6 +129,24 @@ Exit from container and kill it with the command:
 In addition create a blank volume named sharewood\_photos\_store with the command:
 ```
 [sudo] docker volume create sharewood\_photos\_store
+```
+
+Note that all redirect URIs used by a registered client have to be explicitly declared. This happens in this line of the file sharewoodTokenDB.sql:
+
+```
+INSERT INTO oauth\_client_details (
+  client_id, 
+  resource_ids, 
+  client_secret, 
+  scope, 
+  authorized\_grant_types, 
+  web\_server\_redirect_uri,
+  authorities,
+  access\_token_validity,
+  refresh\_token_validity,
+  additional_information,
+  autoapprove)
+VALUES('Fleetwood', 'SHAREWOOD', '{bcrypt}$2a$10$xMgMQRCnrZ.vf/8WxyIwrOTiFKGJF72FYGxUjnSIWQMpFxFTtoU.2', 'READ,WRITE,DELETE', 'authorization\_code', 'http://localhost:8090/fleetwood/sharewood/photosMy,http://localhost:8090/fleetwood/sharewood/sharedPhotos,http://localhost:8090/fleetwood/sharewood/updatePhoto,http://localhost:8090/fleetwood/sharewood/deletePhoto,http://localhost:8090/fleetwood/sharewood/createPhotoMulti,http://localhost:8090/fleetwood/sharewood/getToken', 'ROLE_CLIENT', '520', null, '{}', null);
 ```
 
 # 2. Docker Spring images creation
@@ -171,11 +181,7 @@ In fleetwood directory run the command:
 ```
 mvn spring-boot:run
 ```
-to start the client. Then hit the browser using your explicit host IP address. With my host it is:
-
-```
-http://192.168.1.2:8090/fleetwood
-```
+to start the client.
 
 ![alt text](images/clientPage.png "Client page")
 

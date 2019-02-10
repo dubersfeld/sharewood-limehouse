@@ -76,7 +76,7 @@ INSERT INTO oauth_client_details (
   refresh_token_validity,
   additional_information,
   autoapprove)
-VALUES('Fleetwood', 'SHAREWOOD', '{bcrypt}$2a$10$xMgMQRCnrZ.vf/8WxyIwrOTiFKGJF72FYGxUjnSIWQMpFxFTtoU.2', 'READ,WRITE,DELETE', 'authorization_code', 'http://192.168.1.2:8090/fleetwood/sharewood/photosMy,http://192.168.1.2:8090/fleetwood/sharewood/sharedPhotos,http://192.168.1.2:8090/fleetwood/sharewood/updatePhoto,http://192.168.1.2:8090/fleetwood/sharewood/deletePhoto,http://192.168.1.2:8090/fleetwood/sharewood/createPhotoMulti,http://192.168.1.2:8090/fleetwood/sharewood/getToken', 'ROLE_CLIENT', '520', null, '{}', null);
+VALUES('Fleetwood', 'SHAREWOOD', '{bcrypt}$2a$10$xMgMQRCnrZ.vf/8WxyIwrOTiFKGJF72FYGxUjnSIWQMpFxFTtoU.2', 'READ,WRITE,DELETE', 'authorization_code', 'http://localhost:8090/fleetwood/sharewood/photosMy,http://localhost:8090/fleetwood/sharewood/sharedPhotos,http://localhost:8090/fleetwood/sharewood/updatePhoto,http://localhost:8090/fleetwood/sharewood/deletePhoto,http://localhost:8090/fleetwood/sharewood/createPhotoMulti,http://localhost:8090/fleetwood/sharewood/getToken', 'ROLE_CLIENT', '520', null, '{}', null);
 
 
 

@@ -10,19 +10,13 @@ security:
       client-secret: y471l12D2y55U5558rd2
 
 # authorization server
-accessTokenUri: http://192.168.1.2:8080/authorization/oauth/token
-userAuthorizationUri: http://192.168.1.2:8080/authorization/oauth/authorize
-
+accessTokenUri: http://localhost:8080/authorization/oauth/token
+userAuthorizationUri: http://localhost:8080/authorization/oauth/authorize
 
 
 # resource server
-#producerBaseURL: http://localhost:8081/sharewood/api/
-#sharewoodPhotoBaseURL: http://localhost:8081/sharewood/api/photos
-# edit to match your host IP address
-producerBaseURL: http://192.168.1.2:5555/sharewood/api/
-sharewoodPhotoBaseURL: http://192.168.1.2:5555/sharewood/api/photos
-#producerBaseURL: http://localhost:8081/api/
-#sharewoodPhotoBaseURL: http://localhost:8081/api/photos
+producerBaseURL: http://localhost:5555/sharewood/api/
+sharewoodPhotoBaseURL: http://localhost:5555/sharewood/api/photos
 
 
 

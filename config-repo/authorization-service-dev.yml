@@ -8,11 +8,11 @@ usersResourceUriBase: http://user-service:9090/user/
 #gateway-path: /authorization 
 gateway-path: 
 
-gateway-url: http://192.168.1.2:8080
+gateway-url: http://localhost:8080
 
-authorization-url: "http://192.168.1.2:8080"
+authorization-url: "http://localhost:8080"
 
-login-url: "http://192.168.1.2:8080/authorization/login" 
+login-url: "http://localhost:8080/authorization/login" 
 
 eureka:
   instance:
